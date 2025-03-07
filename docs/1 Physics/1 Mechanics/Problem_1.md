@@ -1,121 +1,157 @@
-# Problem 1
- 
 # Investigating the Range as a Function of the Angle of Projection
 
 ## 1. Theoretical Foundation
 
-### 1.1 Derivation of Governing Equations
+Projectile motion is a classic application of Newton’s laws in two dimensions. Let’s derive the governing equations from first principles, assuming no air resistance for now (we’ll revisit this later).
 
-We start with Newton's second law: **F = ma**. In projectile motion, neglecting air resistance, the only force is gravity: **F = -mgj**, where **j** is the unit vector in the upward direction.
+### Deriving the Equations of Motion
 
-Thus, **ma = -mgj** and **a = -gj**. Since acceleration is the second derivative of position:
+A projectile is launched with an initial velocity $v_0$ at an angle $\theta$ from the horizontal. The acceleration due to gravity $g$ acts downward. We break the motion into horizontal (x) and vertical (y) components:
 
-* d²x/dt² = 0 (horizontal acceleration is zero)
-* d²y/dt² = -g (vertical acceleration is -g)
+- **Initial conditions:**
+  - Horizontal velocity: $v_{x0} = v_0 \cos\theta$
+  - Vertical velocity: $v_{y0} = v_0 \sin\theta$
+  - Initial position: $(x_0, y_0) = (0, 0)$ (assuming launch from the origin)
 
-Integrating once gives the velocity:
+- **Acceleration:**
+  - Horizontal: $a_x = 0$
+  - Vertical: $a_y = -g$
 
-* dx/dt = v_x0 (horizontal velocity is constant)
-* dy/dt = -gt + v_y0 (vertical velocity decreases linearly with time)
+Using the kinematic equations $v = v_0 + at$ and $s = s_0 + v_0 t + \frac{1}{2} a t^2$:
 
-Integrating again gives the position:
+- **Horizontal motion:**
+  $$
+  x(t) = v_{x0} t = v_0 \cos\theta \cdot t
+  $$
 
-* x(t) = v_x0 * t + x_0
-* y(t) = -1/2 * gt² + v_y0 * t + y_0
+- **Vertical motion:**
+  $$
+  y(t) = v_{y0} t + \frac{1}{2} a_y t^2 = v_0 \sin\theta \cdot t - \frac{1}{2} g t^2
+  $$
 
-If we start at the origin (0, 0) and the initial velocity is v0 at an angle θ:
+### Time of Flight
 
-* v_x0 = v0 * cos(θ)
-* v_y0 = v0 * sin(θ)
+The projectile hits the ground when $y(t) = 0$. Solve:
+$$
+v_0 \sin\theta \cdot t - \frac{1}{2} g t^2 = 0
+$$
+Factorize:
+$$
+t \left( v_0 \sin\theta - \frac{1}{2} g t \right) = 0
+$$
+Solutions: $t = 0$ (launch) or:
+$$
+t = \frac{2 v_0 \sin\theta}{g}
+$$
+This is the time of flight $T$.
 
-Therefore:
+### Range Equation
 
-* x(t) = v0 * cos(θ) * t
-* y(t) = -1/2 * gt² + v0 * sin(θ) * t
+The horizontal range $R$ is the distance traveled when $t = T$:
+$$
+R = x(T) = v_0 \cos\theta \cdot \frac{2 v_0 \sin\theta}{g}
+$$
+Using the identity $\sin 2\theta = 2 \sin\theta \cos\theta$:
+$$
+R = \frac{v_0^2 \sin 2\theta}{g}
+$$
 
-### 1.2 Family of Solutions
+### Family of Solutions
 
-These equations show that the trajectory is a parabola. Changing v0 and θ will result in different trajectories.
+This equation reveals a family of solutions parameterized by:
+- $v_0$: Initial velocity scales the range quadratically.
+- $g$: Gravitational acceleration inversely affects the range.
+- $\theta$: The angle determines the sinusoidal variation.
 
 ## 2. Analysis of the Range
 
-### 2.1 Horizontal Range
+### Dependence on Angle
 
-To find the range, we set y(t) = 0:
+The term $\sin 2\theta$ peaks at 1 when $2\theta = 90^\circ$, or $\theta = 45^\circ$, giving the maximum range:
+$$
+R_{\text{max}} = \frac{v_0^2}{g}
+$$
+- At $\theta = 0^\circ$ or $90^\circ$, $\sin 2\theta = 0$, so $R = 0$.
+- The range is symmetric about $45^\circ$ (e.g., $\theta = 30^\circ$ and $60^\circ$ yield the same range).
 
-* 0 = -1/2 * gt² + v0 * sin(θ) * t
-* t = 2 * v0 * sin(θ) / g (time of flight)
+### Influence of Parameters
 
-Substituting this time into the x(t) equation gives the range:
-
-* Range (R) = (v0² / g) * sin(2θ)
-
-### 2.2 Influence of Parameters
-
-* **Initial velocity (v0):** The range is proportional to v0².
-* **Gravitational acceleration (g):** The range is inversely proportional to g.
-* **Angle of projection (θ):** The range is proportional to sin(2θ). The maximum range occurs at θ = 45°.
+- **Initial Velocity ($v_0$)**: Doubling $v_0$ quadruples $R$, due to the $v_0^2$ term.
+- **Gravity ($g$)**: On the Moon ($g \approx 1.62 \, \text{m/s}^2$) versus Earth ($g \approx 9.81 \, \text{m/s}^2$), the range increases significantly for the same $v_0$ and $\theta$.
 
 ## 3. Practical Applications
 
-* **Sports:** Trajectories of balls (baseball, golf, soccer).
-* **Engineering:** Projectiles, rockets.
-* **Astrophysics:** Trajectories of celestial bodies.
-* **Uneven Terrain:** Adjust y = 0 to a function of x.
-* **Air Resistance:** Add a drag force proportional to velocity.
-* **Wind:** Add a wind velocity vector to the horizontal velocity.
+- **Sports**: In soccer or golf, players adjust $\theta$ and $v_0$ to optimize range, though air resistance and spin complicate the ideal $45^\circ$.
+- **Engineering**: Artillery design considers terrain and drag, requiring adjusted angles.
+- **Astrophysics**: Trajectories on other planets (different $g$) or in space (negligible $g$) adapt this model.
+
+For uneven terrain (launch height $h \neq 0$), the time of flight becomes the positive root of:
+$$
+h + v_0 \sin\theta \cdot t - \frac{1}{2} g t^2 = 0
+$$
+This modifies the range, often reducing the optimal angle below $45^\circ$.
 
 ## 4. Implementation
+
+Here’s a Python script to simulate and visualize the range versus angle:
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
 
-def projectile_range(v0, theta_degrees, g=9.81):
-    theta_radians = np.radians(theta_degrees)
-    range_val = (v0**2 / g) * np.sin(2 * theta_radians)
-    return range_val
+def range_projectile(v0, theta_deg, g=9.81):
+    theta = np.radians(theta_deg)
+    return (v0**2 * np.sin(2 * theta)) / g
 
-def projectile_trajectory(v0, theta_degrees, g=9.81, t_max = 10):
-    theta_radians = np.radians(theta_degrees)
-    vx0 = v0 * np.cos(theta_radians)
-    vy0 = v0 * np.sin(theta_radians)
-    t = np.linspace(0, t_max, 100)
-    x = vx0 * t
-    y = vy0 * t - 0.5 * g * t**2
-    return x, y
+# Parameters
+v0_values = [10, 20, 30]  # m/s
+g_values = [9.81, 1.62]   # Earth, Moon
+theta = np.linspace(0, 90, 91)  # 0 to 90 degrees
 
-def plot_range_vs_angle(v0, g=9.81):
-    angles = np.linspace(0, 90, 100)
-    ranges = [projectile_range(v0, angle, g) for angle in angles]
-    plt.plot(angles, ranges)
-    plt.xlabel("Angle of Projection (degrees)")
-    plt.ylabel("Range (meters)")
-    plt.title(f"Range vs. Angle (v0={v0} m/s, g={g} m/s²)")
-    plt.grid(True)
-    plt.show()
+# Plotting
+plt.figure(figsize=(10, 6))
+for v0 in v0_values:
+    for g in g_values:
+        R = range_projectile(v0, theta, g)
+        label = f'v0 = {v0} m/s, g = {g} m/s²'
+        plt.plot(theta, R, label=label)
 
-def plot_trajectories(v0, angles, g=9.81):
-    plt.figure()
-    for angle in angles:
-        x, y = projectile_trajectory(v0, angle, g)
-        plt.plot(x, y, label=f"Angle: {angle}°")
-    plt.xlabel("Horizontal Distance (meters)")
-    plt.ylabel("Vertical Distance (meters)")
-    plt.title(f"Projectile Trajectories (v0={v0} m/s, g={g} m/s²)")
-    plt.legend()
-    plt.grid(True)
-    plt.ylim(bottom=0)
-    plt.show()
+plt.xlabel('Angle of Projection (degrees)')
+plt.ylabel('Range (meters)')
+plt.title('Range vs. Angle of Projection')
+plt.legend()
+plt.grid(True)
+plt.show()
 
-# Example usage:
+# Maximum range example
 v0 = 20
-plot_range_vs_angle(v0)
-plot_trajectories(v0, [30, 45, 60])
+g = 9.81
+theta_max = 45
+R_max = range_projectile(v0, theta_max, g)
+print(f"Max range at 45° with v0 = {v0} m/s, g = {g} m/s²: {R_max:.2f} m")
+```
 
-v0 = 30
-plot_range_vs_angle(v0)
-plot_trajectories(v0, [30, 45, 60])
+### Output Explanation
 
-g = 1.62 #Moon gravity
-plot_range_vs_angle(v0, g)
+- The plot shows $R$ versus $\theta$ for different $v_0$ and $g$.
+- Peaks at $45^\circ$ confirm the theoretical maximum.
+- Higher $v_0$ or lower $g$ increases the range, as expected.
+
+## Discussion and Limitations
+
+### Idealized Model
+
+This model assumes:
+- No air resistance.
+- Flat terrain ($h = 0$).
+- Constant $g$.
+
+### Real-World Adjustments
+
+- **Drag**: Introduces a velocity-dependent force, reducing range and shifting the optimal angle (typically < $45^\circ$).
+- **Wind**: Adds a horizontal force, altering the trajectory.
+- **Numerical Simulation**: For drag, solve the differential equations numerically (e.g., using Runge-Kutta methods) since no closed-form solution exists.
+
+### Suggestions
+
+Incorporate drag with $F_d = -k v$ or terrain effects by adjusting the landing condition. Simulate these using Python libraries like `scipy.integrate.odeint`.
