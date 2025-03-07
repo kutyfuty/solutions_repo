@@ -172,6 +172,149 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h1 id="investigating-the-dynamics-of-a-forced-damped-pendulum">Investigating the Dynamics of a Forced Damped Pendulum</h1>
+<h2 id="1-theoretical-foundation">1. Theoretical Foundation</h2>
+<p>The forced damped pendulum is governed by a second-order nonlinear differential equation that incorporates gravity (restoring force), damping, and an external periodic force. Let’s derive it step-by-step.</p>
+<h3 id="governing-equation">Governing Equation</h3>
+<p>Consider a pendulum of length <span class="arithmatex">\(l\)</span> and mass <span class="arithmatex">\(m\)</span>, with angle <span class="arithmatex">\(\theta\)</span> from the vertical:
+- <strong>Restoring force:</strong> Gravitational torque, <span class="arithmatex">\(-\frac{mg}{l} \sin\theta\)</span>.
+- <strong>Damping:</strong> Proportional to angular velocity, <span class="arithmatex">\(-b \dot{\theta}\)</span> (where <span class="arithmatex">\(b\)</span> is the damping coefficient).
+- <strong>External force:</strong> A periodic driving torque, <span class="arithmatex">\(F_0 \cos(\omega t)\)</span>, where <span class="arithmatex">\(F_0\)</span> is the amplitude and <span class="arithmatex">\(\omega\)</span> is the driving frequency.</p>
+<p>The equation of motion, from Newton’s second law for rotation (<span class="arithmatex">\(I \ddot{\theta} = \sum \tau\)</span>), is:
+$$
+ml^2 \ddot{\theta} + b \dot{\theta} + mg \sin\theta = F_0 \cos(\omega t)
+$$
+Divide through by <span class="arithmatex">\(ml^2\)</span> and define:
+- <span class="arithmatex">\(\omega_0 = \sqrt{\frac{g}{l}}\)</span> (natural frequency),
+- <span class="arithmatex">\(\gamma = \frac{b}{ml^2}\)</span> (damping rate),
+- <span class="arithmatex">\(f = \frac{F_0}{ml^2}\)</span> (driving amplitude per unit inertia).</p>
+<p>The standard form becomes:
+$$
+\ddot{\theta} + \gamma \dot{\theta} + \omega_0^2 \sin\theta = f \cos(\omega t)
+$$</p>
+<h3 id="small-angle-approximation">Small-Angle Approximation</h3>
+<p>For small <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\sin\theta \approx \theta\)</span>, simplifying the equation to a linear forced damped oscillator:
+$$
+\ddot{\theta} + \gamma \dot{\theta} + \omega_0^2 \theta = f \cos(\omega t)
+$$
+This is solvable analytically:
+- <strong>Homogeneous solution:</strong> <span class="arithmatex">\(\theta_h(t) = e^{-\frac{\gamma}{2} t} [A \cos(\omega_d t) + B \sin(\omega_d t)]\)</span>, where <span class="arithmatex">\(\omega_d = \sqrt{\omega_0^2 - (\frac{\gamma}{2})^2}\)</span> (damped frequency).
+- <strong>Particular solution:</strong> <span class="arithmatex">\(\theta_p(t) = C \cos(\omega t - \phi)\)</span>, with amplitude <span class="arithmatex">\(C = \frac{f}{\sqrt{(\omega_0^2 - \omega^2)^2 + (\gamma \omega)^2}}\)</span> and phase <span class="arithmatex">\(\phi = \tan^{-1}\left(\frac{\gamma \omega}{\omega_0^2 - \omega^2}\right)\)</span>.</p>
+<h3 id="resonance">Resonance</h3>
+<p>Resonance occurs when <span class="arithmatex">\(\omega \approx \omega_0\)</span>, maximizing <span class="arithmatex">\(C\)</span>. For light damping (<span class="arithmatex">\(\gamma\)</span> small), the amplitude peaks sharply, amplifying the pendulum’s response.</p>
+<h2 id="2-analysis-of-dynamics">2. Analysis of Dynamics</h2>
+<h3 id="parameter-effects">Parameter Effects</h3>
+<ul>
+<li><strong>Damping (<span class="arithmatex">\(\gamma\)</span>)</strong>: High <span class="arithmatex">\(\gamma\)</span> suppresses oscillations; low <span class="arithmatex">\(\gamma\)</span> allows sustained or chaotic motion.</li>
+<li><strong>Driving Amplitude (<span class="arithmatex">\(f\)</span>)</strong>: Small <span class="arithmatex">\(f\)</span> yields regular oscillations; large <span class="arithmatex">\(f\)</span> can push the system into chaos.</li>
+<li><strong>Driving Frequency (<span class="arithmatex">\(\omega\)</span>)</strong>: Near <span class="arithmatex">\(\omega_0\)</span>, resonance occurs; far from <span class="arithmatex">\(\omega_0\)</span>, motion may become quasiperiodic or chaotic.</li>
+</ul>
+<h3 id="transition-to-chaos">Transition to Chaos</h3>
+<p>The nonlinear term <span class="arithmatex">\(\sin\theta\)</span> (absent in the small-angle case) introduces complexity:
+- <strong>Periodic Motion:</strong> At low <span class="arithmatex">\(f\)</span>, the pendulum locks to the driving frequency.
+- <strong>Chaos:</strong> High <span class="arithmatex">\(f\)</span> or specific <span class="arithmatex">\(\omega\)</span> values lead to unpredictable, aperiodic motion, sensitive to initial conditions.</p>
+<h2 id="3-practical-applications">3. Practical Applications</h2>
+<ul>
+<li><strong>Energy Harvesting:</strong> Oscillating systems (e.g., piezoelectric devices) convert motion to electricity, optimized near resonance.</li>
+<li><strong>Suspension Bridges:</strong> External forces (wind) can drive oscillations, requiring damping to prevent collapse (e.g., Tacoma Narrows).</li>
+<li><strong>Circuits:</strong> Driven RLC circuits mirror this behavior, used in signal processing.</li>
+</ul>
+<h2 id="4-implementation">4. Implementation</h2>
+<p>Let’s simulate this using Python with the Runge-Kutta method (RK4) for the nonlinear equation, visualizing motion, phase portraits, and Poincaré sections.</p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+
+# Define the system
+def pendulum_deriv(state, t, gamma, omega0, f, omega):
+    theta, theta_dot = state
+    dtheta_dt = theta_dot
+    dtheta_dot_dt = -gamma * theta_dot - omega0**2 * np.sin(theta) + f * np.cos(omega * t)
+    return [dtheta_dt, dtheta_dot_dt]
+
+# Parameters
+g = 9.81  # m/s^2
+l = 1.0   # m
+omega0 = np.sqrt(g / l)
+gamma = 0.5  # damping coefficient
+f = 1.2      # driving amplitude
+omega = 2/3 * omega0  # driving frequency
+
+# Time array
+t = np.linspace(0, 50, 1000)
+
+# Initial conditions
+theta0 = 0.1  # radians
+theta_dot0 = 0.0
+state0 = [theta0, theta_dot0]
+
+# Solve ODE
+sol = odeint(pendulum_deriv, state0, t, args=(gamma, omega0, f, omega))
+theta, theta_dot = sol[:, 0], sol[:, 1]
+
+# Plots
+plt.figure(figsize=(12, 8))
+
+# Time series
+plt.subplot(2, 2, 1)
+plt.plot(t, theta, 'b')
+plt.xlabel('Time (s)')
+plt.ylabel('θ (rad)')
+plt.title('Pendulum Motion')
+
+# Phase portrait
+plt.subplot(2, 2, 2)
+plt.plot(theta, theta_dot, 'r')
+plt.xlabel('θ (rad)')
+plt.ylabel('dθ/dt (rad/s)')
+plt.title('Phase Portrait')
+
+# Poincaré section (at t = 2π/ω multiples)
+poincare_t = t[::int(2 * np.pi / (omega * (t[1] - t[0])))]
+poincare_theta = []
+poincare_theta_dot = []
+for ti in poincare_t:
+    idx = np.argmin(np.abs(t - ti))
+    poincare_theta.append(theta[idx])
+    poincare_theta_dot.append(theta_dot[idx])
+plt.subplot(2, 2, 3)
+plt.scatter(poincare_theta, poincare_theta_dot, s=5, c='g')
+plt.xlabel('θ (rad)')
+plt.ylabel('dθ/dt (rad/s)')
+plt.title('Poincaré Section')
+
+plt.tight_layout()
+plt.show()
+
+# Vary parameters for resonance and chaos
+f_values = [0.5, 1.2, 1.5]  # Explore different amplitudes
+plt.figure(figsize=(12, 4))
+for i, f in enumerate(f_values):
+    sol = odeint(pendulum_deriv, state0, t, args=(gamma, omega0, f, omega))
+    plt.subplot(1, 3, i+1)
+    plt.plot(t, sol[:, 0])
+    plt.title(f'f = {f}')
+    plt.xlabel('Time (s)')
+    plt.ylabel('θ (rad)')
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h3 id="output-explanation">Output Explanation</h3>
+<ul>
+<li><strong>Time Series:</strong> Shows <span class="arithmatex">\(\theta(t)\)</span>—regular for small <span class="arithmatex">\(f\)</span>, chaotic for large <span class="arithmatex">\(f\)</span>.</li>
+<li><strong>Phase Portrait:</strong> A closed loop indicates periodic motion; scattered points suggest chaos.</li>
+<li><strong>Poincaré Section:</strong> Discrete points for periodic motion; a cloud for chaos.</li>
+<li><strong>Parameter Variation:</strong> Low <span class="arithmatex">\(f\)</span> (0.5) gives damped oscillations, higher <span class="arithmatex">\(f\)</span> (1.5) shows chaotic behavior.</li>
+</ul>
+<h2 id="deliverables">Deliverables</h2>
+<ul>
+<li><strong>Solutions:</strong> Linear case has damped + driven terms; nonlinear requires numerical methods.</li>
+<li><strong>Graphics:</strong> Time series, phase portraits, and Poincaré sections illustrate dynamics.</li>
+<li><strong>Limitations:</strong> Assumes constant <span class="arithmatex">\(\gamma\)</span>, periodic forcing, and no friction irregularities.</li>
+<li><strong>Extensions:</strong> Add nonlinear damping (<span class="arithmatex">\(\gamma |\dot{\theta}| \dot{\theta}\)</span>) or stochastic forcing.</li>
+</ul>
+<h2 id="discussion">Discussion</h2>
+<p>The forced damped pendulum bridges simple oscillators and complex systems. Resonance amplifies energy transfer, while chaos reveals sensitivity to conditions—key for engineering and physics. For deeper analysis, bifurcation diagrams (varying <span class="arithmatex">\(f\)</span> or <span class="arithmatex">\(\omega\)</span>) could map transitions to chaos.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
