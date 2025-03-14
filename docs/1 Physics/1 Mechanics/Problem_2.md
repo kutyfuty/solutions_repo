@@ -36,10 +36,11 @@ $$
 ### Small-Angle Approximation
 
 For small $\theta$, $\sin\theta \approx \theta$, simplifying the equation to a linear forced damped oscillator:
-$$
 
+$$
 \ddot{\theta} + \gamma \dot{\theta} + \omega_0^2 \theta = f \cos(\omega t)
 $$
+
 This is solvable analytically:
 
 - **Homogeneous solution:** $\theta_h(t) = e^{-\frac{\gamma}{2} t} [A \cos(\omega_d t) + B \sin(\omega_d t)]$, where $\omega_d = \sqrt{\omega_0^2 - (\frac{\gamma}{2})^2}$ (damped frequency).
