@@ -11,13 +11,17 @@ Projectile motion is a classic application of Newton’s laws in two dimensions.
 A projectile is launched with an initial velocity $v_0$ at an angle $\theta$ from the horizontal. The acceleration due to gravity $g$ acts downward. We break the motion into horizontal (x) and vertical (y) components:
 
 - **Initial conditions:**
+
   - Horizontal velocity: $v_{x0} = v_0 \cos\theta$
   - Vertical velocity: $v_{y0} = v_0 \sin\theta$
   - Initial position: $(x_0, y_0) = (0, 0)$ (assuming launch from the origin)
 
+
 - **Acceleration:**
+
   - Horizontal: $a_x = 0$
   - Vertical: $a_y = -g$
+  
 
 Using the kinematic equations $v = v_0 + at$ and $s = s_0 + v_0 t + \frac{1}{2} a t^2$:
 
