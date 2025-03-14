@@ -180,9 +180,15 @@
 $$
 \epsilon = \frac{v^2}{2} - \frac{G M}{r}
 $$
-- <strong>Elliptical Orbit (<span class="arithmatex">\(\epsilon &lt; 0\)</span>):</strong> The payload stays bound, orbiting Earth (e.g., circular if eccentricity <span class="arithmatex">\(e = 0\)</span>).
-- <strong>Parabolic Trajectory (<span class="arithmatex">\(\epsilon = 0\)</span>):</strong> The payload escapes to infinity with zero velocity at infinity (escape velocity).
-- <strong>Hyperbolic Trajectory (<span class="arithmatex">\(\epsilon &gt; 0\)</span>):</strong> The payload escapes with excess speed, following an open path.</p>
+- <strong>Elliptical Orbit (<span class="arithmatex">\(\epsilon &lt; 0\)</span>):</strong> The payload stays bound, orbiting Earth (e.g., circular if eccentricity <span class="arithmatex">\(e = 0\)</span>).</p>
+<ul>
+<li>
+<p><strong>Parabolic Trajectory (<span class="arithmatex">\(\epsilon = 0\)</span>):</strong> The payload escapes to infinity with zero velocity at infinity (escape velocity).</p>
+</li>
+<li>
+<p><strong>Hyperbolic Trajectory (<span class="arithmatex">\(\epsilon &gt; 0\)</span>):</strong> The payload escapes with excess speed, following an open path.</p>
+</li>
+</ul>
 <h3 id="governing-equations">Governing Equations</h3>
 <p>Under Newton’s Law of Gravitation, the acceleration is:
 $$
@@ -285,20 +291,36 @@ for label, (x0, y0, vx0, vy0) in scenarios.items():
 <p>Hyperbolic: Energy = 1.31e+07 J/kg</p>
 <h3 id="outputs">Outputs</h3>
 <ul>
-<li><strong>Plot:</strong> Shows trajectories:</li>
-<li><strong>Suborbital:</strong> Falls back to Earth.</li>
-<li><strong>Circular:</strong> Stable orbit.</li>
-<li><strong>Escape:</strong> Parabolic exit.</li>
+<li>
+<p><strong>Plot:</strong> Shows trajectories:</p>
+</li>
+<li>
+<p><strong>Suborbital:</strong> Falls back to Earth.</p>
+</li>
+<li>
+<p><strong>Circular:</strong> Stable orbit.</p>
+</li>
+<li>
+<p><strong>Escape:</strong> Parabolic exit.</p>
+</li>
 <li>
 <p><strong>Hyperbolic:</strong> Open curve.</p>
 </li>
 <li>
 <p><strong>Energy:</strong></p>
 </li>
-<li>Suborbital: <span class="arithmatex">\(\epsilon &lt; 0\)</span> (bound).</li>
-<li>Circular: <span class="arithmatex">\(\epsilon &lt; 0\)</span> (matches orbit).</li>
-<li>Escape: <span class="arithmatex">\(\epsilon \approx 0\)</span>.</li>
-<li>Hyperbolic: <span class="arithmatex">\(\epsilon &gt; 0\)</span>.</li>
+<li>
+<p>Suborbital: <span class="arithmatex">\(\epsilon &lt; 0\)</span> (bound).</p>
+</li>
+<li>
+<p>Circular: <span class="arithmatex">\(\epsilon &lt; 0\)</span> (matches orbit).</p>
+</li>
+<li>
+<p>Escape: <span class="arithmatex">\(\epsilon \approx 0\)</span>.</p>
+</li>
+<li>
+<p>Hyperbolic: <span class="arithmatex">\(\epsilon &gt; 0\)</span>.</p>
+</li>
 </ul>
 <h2 id="deliverables">Deliverables</h2>
 <ul>
