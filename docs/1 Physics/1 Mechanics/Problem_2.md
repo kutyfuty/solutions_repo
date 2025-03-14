@@ -62,7 +62,9 @@ Resonance occurs when $\omega \approx \omega_0$, maximizing $C$. For light dampi
 ### Transition to Chaos
 
 The nonlinear term $\sin\theta$ (absent in the small-angle case) introduces complexity:
+
 - **Periodic Motion:** At low $f$, the pendulum locks to the driving frequency.
+
 - **Chaos:** High $f$ or specific $\omega$ values lead to unpredictable, aperiodic motion, sensitive to initial conditions.
 
 ## 3. Practical Applications
