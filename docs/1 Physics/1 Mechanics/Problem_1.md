@@ -88,6 +88,7 @@ $$
 - **Astrophysics**: Trajectories on other planets (different $g$) or in space (negligible $g$) adapt this model.
 
 For uneven terrain (launch height $h \neq 0$), the time of flight becomes the positive root of:
+
 $$
 h + v_0 \sin\theta \cdot t - \frac{1}{2} g t^2 = 0
 $$
@@ -151,7 +152,9 @@ This model assumes:
 ### Real-World Adjustments
 
 - **Drag**: Introduces a velocity-dependent force, reducing range and shifting the optimal angle (typically < $45^\circ$).
+
 - **Wind**: Adds a horizontal force, altering the trajectory.
+
 - **Numerical Simulation**: For drag, solve the differential equations numerically (e.g., using Runge-Kutta methods) since no closed-form solution exists.
 
 ### Suggestions
