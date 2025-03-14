@@ -138,33 +138,18 @@ Hyperbolic: Energy = 1.31e+07 J/kg
 ### Outputs
 
 - **Plot:** Shows trajectories:
-
-
   - **Suborbital:** Falls back to Earth.
-
-
   - **Circular:** Stable orbit.
-
-
   - **Escape:** Parabolic exit.
-
-
   - **Hyperbolic:** Open curve.
 
-
+‎
 
 
 - **Energy:**
-
   - Suborbital: $\epsilon < 0$ (bound).
-
-
   - Circular: $\epsilon < 0$ (matches orbit).
-
-
   - Escape: $\epsilon \approx 0$.
-
-
   - Hyperbolic: $\epsilon > 0$.
 
 ## Deliverables
