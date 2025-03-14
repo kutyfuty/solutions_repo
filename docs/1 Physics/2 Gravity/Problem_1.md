@@ -116,7 +116,7 @@ This elegant result shows $T^2$ is directly proportional to $r^3$, with $k$ depe
 
 ## 4. Implementation
 
-Here’s a polished Python script:
+
 
 ```python
 import numpy as np
