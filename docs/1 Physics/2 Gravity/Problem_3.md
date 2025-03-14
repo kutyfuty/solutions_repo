@@ -25,8 +25,11 @@ $$
 \mathbf{a} = -\frac{G M}{r^3} \mathbf{r}
 $$
 Where:
+
 - $G = 6.67430 \times 10^{-11} \, \text{m}^3 \text{kg}^{-1} \text{s}^{-2}$
+
 - $M = 5.972 \times 10^{24} \, \text{kg}$ (Earth’s mass)
+
 - $\mathbf{r} = (x, y)$ is the position vector, $r = |\mathbf{r}|$.
 
 In 2D Cartesian coordinates, the equations of motion are:
@@ -138,7 +141,7 @@ Hyperbolic: Energy = 1.31e+07 J/kg
 
 
   - **Suborbital:** Falls back to Earth.
-  
+
 
   - **Circular:** Stable orbit.
 
