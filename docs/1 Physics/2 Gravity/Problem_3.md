@@ -13,7 +13,9 @@ $$
 \epsilon = \frac{v^2}{2} - \frac{G M}{r}
 $$
 - **Elliptical Orbit ($\epsilon < 0$):** The payload stays bound, orbiting Earth (e.g., circular if eccentricity $e = 0$).
+
 - **Parabolic Trajectory ($\epsilon = 0$):** The payload escapes to infinity with zero velocity at infinity (escape velocity).
+
 - **Hyperbolic Trajectory ($\epsilon > 0$):** The payload escapes with excess speed, following an open path.
 
 ### Governing Equations
@@ -133,15 +135,24 @@ Hyperbolic: Energy = 1.31e+07 J/kg
 ### Outputs
 
 - **Plot:** Shows trajectories:
+
   - **Suborbital:** Falls back to Earth.
+
   - **Circular:** Stable orbit.
+
   - **Escape:** Parabolic exit.
+  
   - **Hyperbolic:** Open curve.
 
+
 - **Energy:**
+
   - Suborbital: $\epsilon < 0$ (bound).
+
   - Circular: $\epsilon < 0$ (matches orbit).
+
   - Escape: $\epsilon \approx 0$.
+
   - Hyperbolic: $\epsilon > 0$.
 
 ## Deliverables
