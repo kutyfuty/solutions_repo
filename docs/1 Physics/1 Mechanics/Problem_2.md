@@ -9,15 +9,21 @@ The forced damped pendulum is governed by a second-order nonlinear differential 
 ### Governing Equation
 
 Consider a pendulum of length $l$ and mass $m$, with angle $\theta$ from the vertical:
+
 - **Restoring force:** Gravitational torque, $-\frac{mg}{l} \sin\theta$.
-- **Damping:** Proportional to angular velocity, $-b \dot{\theta}$ (where $b$ is the damping coefficient).
+
+- **Damping:** Proportional to angular velocity, $-b \dot{\theta}$ (where $b$ 
+is the damping coefficient).
+
 - **External force:** A periodic driving torque, $F_0 \cos(\omega t)$, where $F_0$ is the amplitude and $\omega$ is the driving frequency.
 
 The equation of motion, from Newton’s second law for rotation ($I \ddot{\theta} = \sum \tau$), is:
+
 $$
 ml^2 \ddot{\theta} + b \dot{\theta} + mg \sin\theta = F_0 \cos(\omega t)
 $$
 Divide through by $ml^2$ and define:
+
 - $\omega_0 = \sqrt{\frac{g}{l}}$ (natural frequency),
 - $\gamma = \frac{b}{ml^2}$ (damping rate),
 - $f = \frac{F_0}{ml^2}$ (driving amplitude per unit inertia).
