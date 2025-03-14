@@ -176,18 +176,29 @@
 <h2 id="1-theoretical-foundation">1. Theoretical Foundation</h2>
 <p>The forced damped pendulum is governed by a second-order nonlinear differential equation that incorporates gravity (restoring force), damping, and an external periodic force. Let’s derive it step-by-step.</p>
 <h3 id="governing-equation">Governing Equation</h3>
-<p>Consider a pendulum of length <span class="arithmatex">\(l\)</span> and mass <span class="arithmatex">\(m\)</span>, with angle <span class="arithmatex">\(\theta\)</span> from the vertical:
-- <strong>Restoring force:</strong> Gravitational torque, <span class="arithmatex">\(-\frac{mg}{l} \sin\theta\)</span>.
-- <strong>Damping:</strong> Proportional to angular velocity, <span class="arithmatex">\(-b \dot{\theta}\)</span> (where <span class="arithmatex">\(b\)</span> is the damping coefficient).
-- <strong>External force:</strong> A periodic driving torque, <span class="arithmatex">\(F_0 \cos(\omega t)\)</span>, where <span class="arithmatex">\(F_0\)</span> is the amplitude and <span class="arithmatex">\(\omega\)</span> is the driving frequency.</p>
-<p>The equation of motion, from Newton’s second law for rotation (<span class="arithmatex">\(I \ddot{\theta} = \sum \tau\)</span>), is:
-$$
+<p>Consider a pendulum of length <span class="arithmatex">\(l\)</span> and mass <span class="arithmatex">\(m\)</span>, with angle <span class="arithmatex">\(\theta\)</span> from the vertical:</p>
+<ul>
+<li>
+<p><strong>Restoring force:</strong> Gravitational torque, <span class="arithmatex">\(-\frac{mg}{l} \sin\theta\)</span>.</p>
+</li>
+<li>
+<p><strong>Damping:</strong> Proportional to angular velocity, <span class="arithmatex">\(-b \dot{\theta}\)</span> (where <span class="arithmatex">\(b\)</span> 
+is the damping coefficient).</p>
+</li>
+<li>
+<p><strong>External force:</strong> A periodic driving torque, <span class="arithmatex">\(F_0 \cos(\omega t)\)</span>, where <span class="arithmatex">\(F_0\)</span> is the amplitude and <span class="arithmatex">\(\omega\)</span> is the driving frequency.</p>
+</li>
+</ul>
+<p>The equation of motion, from Newton’s second law for rotation (<span class="arithmatex">\(I \ddot{\theta} = \sum \tau\)</span>), is:</p>
+<p>$$
 ml^2 \ddot{\theta} + b \dot{\theta} + mg \sin\theta = F_0 \cos(\omega t)
 $$
-Divide through by <span class="arithmatex">\(ml^2\)</span> and define:
-- <span class="arithmatex">\(\omega_0 = \sqrt{\frac{g}{l}}\)</span> (natural frequency),
-- <span class="arithmatex">\(\gamma = \frac{b}{ml^2}\)</span> (damping rate),
-- <span class="arithmatex">\(f = \frac{F_0}{ml^2}\)</span> (driving amplitude per unit inertia).</p>
+Divide through by <span class="arithmatex">\(ml^2\)</span> and define:</p>
+<ul>
+<li><span class="arithmatex">\(\omega_0 = \sqrt{\frac{g}{l}}\)</span> (natural frequency),</li>
+<li><span class="arithmatex">\(\gamma = \frac{b}{ml^2}\)</span> (damping rate),</li>
+<li><span class="arithmatex">\(f = \frac{F_0}{ml^2}\)</span> (driving amplitude per unit inertia).</li>
+</ul>
 <p>The standard form becomes:
 $$
 \ddot{\theta} + \gamma \dot{\theta} + \omega_0^2 \sin\theta = f \cos(\omega t)
