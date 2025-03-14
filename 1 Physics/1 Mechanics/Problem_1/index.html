@@ -252,8 +252,8 @@ $$
 <li><strong>Engineering</strong>: Artillery design considers terrain and drag, requiring adjusted angles.</li>
 <li><strong>Astrophysics</strong>: Trajectories on other planets (different <span class="arithmatex">\(g\)</span>) or in space (negligible <span class="arithmatex">\(g\)</span>) adapt this model.</li>
 </ul>
-<p>For uneven terrain (launch height <span class="arithmatex">\(h \neq 0\)</span>), the time of flight becomes the positive root of:
-$$
+<p>For uneven terrain (launch height <span class="arithmatex">\(h \neq 0\)</span>), the time of flight becomes the positive root of:</p>
+<p>$$
 h + v_0 \sin\theta \cdot t - \frac{1}{2} g t^2 = 0
 $$
 This modifies the range, often reducing the optimal angle below <span class="arithmatex">\(45^\circ\)</span>.</p>
@@ -307,9 +307,15 @@ print(f"Max range at 45° with v0 = {v0} m/s, g = {g} m/s²: {R_max:.2f} m")
 - Constant <span class="arithmatex">\(g\)</span>.</p>
 <h3 id="real-world-adjustments">Real-World Adjustments</h3>
 <ul>
-<li><strong>Drag</strong>: Introduces a velocity-dependent force, reducing range and shifting the optimal angle (typically &lt; <span class="arithmatex">\(45^\circ\)</span>).</li>
-<li><strong>Wind</strong>: Adds a horizontal force, altering the trajectory.</li>
-<li><strong>Numerical Simulation</strong>: For drag, solve the differential equations numerically (e.g., using Runge-Kutta methods) since no closed-form solution exists.</li>
+<li>
+<p><strong>Drag</strong>: Introduces a velocity-dependent force, reducing range and shifting the optimal angle (typically &lt; <span class="arithmatex">\(45^\circ\)</span>).</p>
+</li>
+<li>
+<p><strong>Wind</strong>: Adds a horizontal force, altering the trajectory.</p>
+</li>
+<li>
+<p><strong>Numerical Simulation</strong>: For drag, solve the differential equations numerically (e.g., using Runge-Kutta methods) since no closed-form solution exists.</p>
+</li>
 </ul>
 <h3 id="suggestions">Suggestions</h3>
 <p>Incorporate drag with <span class="arithmatex">\(F_d = -k v\)</span> or terrain effects by adjusting the landing condition. Simulate these using Python libraries like <code>scipy.integrate.odeint</code>.</p>
