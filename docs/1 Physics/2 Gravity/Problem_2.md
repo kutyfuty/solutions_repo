@@ -74,16 +74,25 @@ The speed to escape the Sun’s gravity from Earth’s orbit (distance $r_{\text
 
 Using $G = 6.67430 \times 10^{-11} \, \text{m}^3 \text{kg}^{-1} \text{s}^{-2}$:
 - **Earth:** $M = 5.972 \times 10^{24} \, \text{kg}$, $R = 6.371 \times 10^6 \, \text{m}$
+
   - $v_1 = \sqrt{\frac{G M}{R}} \approx 7.91 \, \text{km/s}$
+
   - $v_2 = \sqrt{\frac{2 G M}{R}} \approx 11.19 \, \text{km/s}$
+
   - $v_3 \approx 42.1 - 29.8 = 12.3 \, \text{km/s}$ (from Sun’s influence).
 
+
 - **Mars:** $M = 6.417 \times 10^{23} \, \text{kg}$, $R = 3.39 \times 10^6 \, \text{m}$
+
   - $v_1 \approx 3.55 \, \text{km/s}$
+
   - $v_2 \approx 5.03 \, \text{km/s}$
 
+
 - **Jupiter:** $M = 1.899 \times 10^{27} \, \text{kg}$, $R = 6.991 \times 10^7 \, \text{m}$
+
   - $v_1 \approx 42.1 \, \text{km/s}$
+
   - $v_2 \approx 59.5 \, \text{km/s}$
 
 ## 4. Importance in Space Exploration
