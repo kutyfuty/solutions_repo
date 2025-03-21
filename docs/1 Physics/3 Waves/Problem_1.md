@@ -132,6 +132,7 @@ for i, t in enumerate(times, 1):
 plt.tight_layout()
 plt.show()
 ```
+
 ![alt text](image-2.png)
 
 ### Outputs
