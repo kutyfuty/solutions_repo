@@ -176,32 +176,42 @@
 <h2 id="1-theoretical-foundation">1. Theoretical Foundation</h2>
 <p>Interference occurs when waves from multiple sources overlap, creating patterns of constructive (amplified) and destructive (canceled) regions. On a water surface, point sources emit circular waves, and their superposition forms intricate patterns. Let’s break this down systematically.</p>
 <h3 id="wave-equation-for-a-single-source">Wave Equation for a Single Source</h3>
-<p>The displacement <span class="arithmatex">\(\eta(x, y, t)\)</span> at point <span class="arithmatex">\((x, y)\)</span> and time <span class="arithmatex">\(t\)</span> from a source at <span class="arithmatex">\((x_0, y_0)\)</span> is given by:
-$$
+<p>The displacement <span class="arithmatex">\(\eta(x, y, t)\)</span> at point <span class="arithmatex">\((x, y)\)</span> and time <span class="arithmatex">\(t\)</span> from a source at <span class="arithmatex">\((x_0, y_0)\)</span> is given by:</p>
+<div class="arithmatex">\[
 \eta(x, y, t) = A \cos(kr - \omega t + \phi)
-$$
-Where:
-- <span class="arithmatex">\(A\)</span>: Amplitude of the wave.
-- <span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span>: Wave number, with <span class="arithmatex">\(\lambda\)</span> as the wavelength.
-- <span class="arithmatex">\(\omega = 2\pi f\)</span>: Angular frequency, with <span class="arithmatex">\(f\)</span> as the frequency.
-- <span class="arithmatex">\(r = \sqrt{(x - x_0)^2 + (y - y_0)^2}\)</span>: Distance from the source to <span class="arithmatex">\((x, y)\)</span>.
-- <span class="arithmatex">\(\phi\)</span>: Initial phase (assumed constant across sources).</p>
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(A\)</span>: Amplitude of the wave.</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span>: Wave number, with <span class="arithmatex">\(\lambda\)</span> as the wavelength.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\omega = 2\pi f\)</span>: Angular frequency, with <span class="arithmatex">\(f\)</span> as the frequency.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(r = \sqrt{(x - x_0)^2 + (y - y_0)^2}\)</span>: Distance from the source to <span class="arithmatex">\((x, y)\)</span>.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\phi\)</span>: Initial phase (assumed constant across sources).</p>
+</li>
+</ul>
 <h3 id="superposition-of-waves">Superposition of Waves</h3>
-<p>For <span class="arithmatex">\(N\)</span> sources (vertices of a regular polygon), the total displacement is the sum of contributions from each source:
-$$
+<p>For <span class="arithmatex">\(N\)</span> sources (vertices of a regular polygon), the total displacement is the sum of contributions from each source:</p>
+<div class="arithmatex">\[
 \eta_{\text{sum}}(x, y, t) = \sum_{i=1}^N \eta_i(x, y, t)
-$$</p>
+\]</div>
 <h2 id="2-steps-to-analyze-interference">2. Steps to Analyze Interference</h2>
 <h3 id="step-1-select-a-regular-polygon">Step 1: Select a Regular Polygon</h3>
 <p>Let’s choose a <strong>regular pentagon</strong> (<span class="arithmatex">\(N = 5\)</span>). The vertices are equally spaced on a circle of radius <span class="arithmatex">\(R\)</span>, with angular positions <span class="arithmatex">\(\theta_i = \frac{2\pi (i-1)}{N}\)</span> for <span class="arithmatex">\(i = 1, 2, \ldots, N\)</span>.</p>
 <h3 id="step-2-position-the-sources">Step 2: Position the Sources</h3>
 <p>Place the pentagon’s vertices at <span class="arithmatex">\((x_i, y_i) = (R \cos \theta_i, R \sin \theta_i)\)</span>. Let’s set <span class="arithmatex">\(R = 1 \, \text{m}\)</span> for simplicity.</p>
 <h3 id="step-3-wave-equations">Step 3: Wave Equations</h3>
-<p>Each source emits a wave:
-$$
+<p>Each source emits a wave:</p>
+<div class="arithmatex">\[
 \eta_i(x, y, t) = A \cos(k r_i - \omega t + \phi)
-$$
-Where <span class="arithmatex">\(r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}\)</span>. Assume <span class="arithmatex">\(A = 1\)</span>, <span class="arithmatex">\(\lambda = 0.5 \, \text{m}\)</span>, <span class="arithmatex">\(f = 1 \, \text{Hz}\)</span>, and <span class="arithmatex">\(\phi = 0\)</span> (coherent sources).</p>
+\]</div>
+<p>Where <span class="arithmatex">\(r_i = \sqrt{(x - x_i)^2 + (y - y_i)^2}\)</span>. Assume <span class="arithmatex">\(A = 1\)</span>, <span class="arithmatex">\(\lambda = 0.5 \, \text{m}\)</span>, <span class="arithmatex">\(f = 1 \, \text{Hz}\)</span>, and <span class="arithmatex">\(\phi = 0\)</span> (coherent sources).</p>
 <h3 id="step-4-superposition">Step 4: Superposition</h3>
 <p>The total displacement is:
 $$
@@ -209,8 +219,12 @@ $$
 $$</p>
 <h3 id="step-5-analyze-interference-patterns">Step 5: Analyze Interference Patterns</h3>
 <ul>
-<li><strong>Constructive Interference:</strong> Occurs when waves are in phase, e.g., <span class="arithmatex">\(k(r_i - r_j) = 2\pi m\)</span> (integer <span class="arithmatex">\(m\)</span>).</li>
-<li><strong>Destructive Interference:</strong> Occurs when waves are out of phase, e.g., <span class="arithmatex">\(k(r_i - r_j) = (2m+1)\pi\)</span>.</li>
+<li>
+<p><strong>Constructive Interference:</strong> Occurs when waves are in phase, e.g., <span class="arithmatex">\(k(r_i - r_j) = 2\pi m\)</span> (integer <span class="arithmatex">\(m\)</span>).</p>
+</li>
+<li>
+<p><strong>Destructive Interference:</strong> Occurs when waves are out of phase, e.g., <span class="arithmatex">\(k(r_i - r_j) = (2m+1)\pi\)</span>.</p>
+</li>
 </ul>
 <h2 id="3-implementation">3. Implementation</h2>
 <p>Here’s a Python script to simulate and visualize the interference pattern:</p>
