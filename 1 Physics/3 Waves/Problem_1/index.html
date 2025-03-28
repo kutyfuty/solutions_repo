@@ -228,48 +228,147 @@ $$</p>
 </ul>
 <h2 id="3-implementation">3. Implementation</h2>
 <p>Here’s a Python script to simulate and visualize the interference pattern:</p>
-<pre><code class="language-python">import numpy as np
-import matplotlib.pyplot as plt
+<pre><code class="language-py"># Import libraries
+import numpy as np  # For math and arrays
+import matplotlib.pyplot as plt  # For plotting
 
-# Parameters
-A = 1.0  # Amplitude
-lambda_ = 0.5  # Wavelength (m)
-k = 2 * np.pi / lambda_  # Wave number
-f = 1.0  # Frequency (Hz)
-omega = 2 * np.pi * f  # Angular frequency
-R = 1.0  # Radius of pentagon (m)
-N = 5  # Number of sources (pentagon)
+# Wave settings (simple names)
+WAVE_AMPLITUDE = 1.0  # Wave height (meters)
+WAVE_LENGTH = 0.5  # Distance between wave peaks (meters)
+WAVE_FREQUENCY = 1.0  # Waves per second (Hz)
+PENTAGON_RADIUS = 1.0  # Distance of sources from center (meters)
+NUM_SOURCES = 5  # Number of sources (pentagon has 5 points)
 
-# Source positions (vertices of a regular pentagon)
-theta = np.linspace(0, 2 * np.pi, N, endpoint=False)
-sources = [(R * np.cos(t), R * np.sin(t)) for t in theta]
+# Calculate wave properties
+WAVE_NUMBER = 2 * np.pi / WAVE_LENGTH  # Wave number (how tight the waves are)
+ANGULAR_FREQUENCY = 2 * np.pi * WAVE_FREQUENCY  # Angular frequency (how fast waves move)
+INITIAL_PHASE = 0  # Starting phase (set to 0 for same-phase waves)
 
-# Grid for simulation
-x = np.linspace(-2, 2, 100)
-y = np.linspace(-2, 2, 100)
-X, Y = np.meshgrid(x, y)
+# Step 1: Set up source positions (pentagon vertices)
+# Place 5 sources on a circle, equally spaced (0°, 72°, 144°, 216°, 288°)
+source_angles = np.linspace(0, 2 * np.pi, NUM_SOURCES, endpoint=False)
+source_positions = [(PENTAGON_RADIUS * np.cos(angle), PENTAGON_RADIUS * np.sin(angle)) 
+                    for angle in source_angles]
 
-# Time snapshot
-t = 0  # Snapshot at t = 0
+# Step 2: Create a grid for the water surface
+# Make a 2D area: x and y from -2 to 2 meters
+GRID_POINTS = 200  # 200 points per axis (for smooth plots)
+x_coords = np.linspace(-2, 2, GRID_POINTS)  # x-axis: -2 to 2
+y_coords = np.linspace(-2, 2, GRID_POINTS)  # y-axis: -2 to 2
+X, Y = np.meshgrid(x_coords, y_coords)  # 2D grid (200x200 points)
 
-# Compute total displacement
-eta_sum = np.zeros_like(X)
-for (x0, y0) in sources:
-    r = np.sqrt((X - x0)**2 + (Y - y0)**2)
-    eta_sum += A * np.cos(k * r - omega * t)
+# Step 3: Function to calculate total wave height at a given time
+def calculate_wave_height(X, Y, source_positions, time):
+    """
+    Calculate total wave height at each (x, y) point for a given time.
+    Inputs:
+        X, Y: 2D grid of coordinates
+        source_positions: List of (x, y) positions of sources
+        time: Time in seconds
+    Output:
+        Total wave height (2D array)
+    """
+    total_height = np.zeros_like(X)  # Start with zero height everywhere
+    for source_x, source_y in source_positions:
+        # Distance from source to point (x, y): r = √[(x - x₀)² + (y - y₀)²]
+        distance = np.sqrt((X - source_x)**2 + (Y - source_y)**2)
+        # Wave equation: height = A * cos(kr - ωt + φ)
+        wave = WAVE_AMPLITUDE * np.cos(WAVE_NUMBER * distance - 
+                                       ANGULAR_FREQUENCY * time + 
+                                       INITIAL_PHASE)
+        total_height += wave  # Add this wave to the total
+    return total_height
 
-# Plotting
-plt.figure(figsize=(8, 8))
-plt.contourf(X, Y, eta_sum, levels=50, cmap='seismic')
-plt.colorbar(label='Displacement')
-plt.scatter([s[0] for s in sources], [s[1] for s in sources], c='black', label='Sources')
-plt.xlabel('x (m)')
-plt.ylabel('y (m)')
-plt.title('Interference Pattern (Pentagon Sources)')
-plt.legend()
-plt.axis('equal')
-plt.grid(True, ls='--', alpha=0.7)
+# Step 4: Plot the 2D wave pattern at t = 0
+snapshot_time = 0  # Time = 0 seconds
+total_height = calculate_wave_height(X, Y, source_positions, snapshot_time)
+
+# 2D Contour Plot
+plt.figure(figsize=(8, 8), dpi=100)  # 8x8 inch plot
+contour_plot = plt.contourf(X, Y, total_height, levels=50, cmap='RdBu')
+# RdBu color: Red (high), blue (low), white (zero)
+plt.colorbar(contour_plot, label='Wave Height (m)', shrink=0.8, pad=0.05)
+# Mark sources with red stars
+plt.scatter([s[0] for s in source_positions], [s[1] for s in source_positions], 
+            c='red', marker='*', s=150, label='Wave Sources', edgecolors='black')
+plt.xlabel('x (meters)', fontsize=14)
+plt.ylabel('y (meters)', fontsize=14)
+plt.title('2D Wave Interference (Pentagon Sources, t = 0 s)', fontsize=16)
+plt.legend(loc='upper right', fontsize=12)
+plt.axis('equal')  # Keep x and y scales equal
+plt.grid(True, linestyle='--', alpha=0.5, color='gray')
+plt.tight_layout()
 plt.show()
+
+# Step 5: Plot the wave shape along x-axis (y = 0) at t = 0
+# Take a slice at y = 0 (middle of the grid)
+y_index = GRID_POINTS // 2  # y = 0 is at index 100 (200/2)
+x_slice = x_coords  # All x values
+height_slice = total_height[y_index, :]  # Wave heights at y = 0
+
+# 2D Line Plot (Wave Shape)
+plt.figure(figsize=(10, 4), dpi=100)
+plt.plot(x_slice, height_slice, 'b-', linewidth=2, label='Wave at y = 0')
+plt.axhline(0, color='black', linestyle='--', alpha=0.5)  # Zero line
+# Mark source positions on x-axis (if y ≈ 0)
+source_x_coords = [s[0] for s in source_positions if abs(s[1]) &lt; 0.1]
+for sx in source_x_coords:
+    plt.axvline(sx, color='red', linestyle='--', alpha=0.7, 
+                label='Source Position' if sx == source_x_coords[0] else "")
+plt.xlabel('x (meters)', fontsize=14)
+plt.ylabel('Wave Height (m)', fontsize=14)
+plt.title('Wave Shape Along x-Axis (y = 0, t = 0 s)', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5, color='gray')
+plt.tight_layout()
+plt.show()
+
+# Step 6: Show how the 2D pattern changes over time
+time_snapshots = [0, 0.25, 0.5]  # Times to show (seconds)
+plt.figure(figsize=(18, 6), dpi=100)  # 3 plots side by side
+
+# Loop through each time
+for idx, time in enumerate(time_snapshots, 1):
+    total_height = calculate_wave_height(X, Y, source_positions, time)
+    plt.subplot(1, 3, idx)  # 1 row, 3 columns, idx-th plot
+    contour_plot = plt.contourf(X, Y, total_height, levels=50, cmap='RdBu')
+    plt.scatter([s[0] for s in source_positions], [s[1] for s in source_positions], 
+                c='red', marker='*', s=150, edgecolors='black')
+    plt.title(f't = {time} s', fontsize=14)
+    plt.xlabel('x (meters)', fontsize=12)
+    plt.ylabel('y (meters)', fontsize=12)
+    plt.axis('equal')
+    plt.grid(True, linestyle='--', alpha=0.5, color='gray')
+
+# Add a shared colorbar
+plt.colorbar(contour_plot, ax=plt.gcf().get_axes(), label='Wave Height (m)', 
+             shrink=0.8, pad=0.05)
+plt.suptitle('Time Evolution of 2D Wave Patterns', fontsize=18, y=1.05)
+plt.tight_layout()
+plt.show()
+
+# Step 7: Show how the wave shape (y = 0) changes over time
+plt.figure(figsize=(10, 6), dpi=100)
+for time in time_snapshots:
+    total_height = calculate_wave_height(X, Y, source_positions, time)
+    height_slice = total_height[y_index, :]  # Wave heights at y = 0
+    plt.plot(x_slice, height_slice, label=f't = {time} s', linewidth=2)
+plt.axhline(0, color='black', linestyle='--', alpha=0.5)
+for sx in source_x_coords:
+    plt.axvline(sx, color='red', linestyle='--', alpha=0.7)
+plt.xlabel('x (meters)', fontsize=14)
+plt.ylabel('Wave Height (m)', fontsize=14)
+plt.title('Wave Shape Along x-Axis (y = 0) Over Time', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5, color='gray')
+plt.tight_layout()
+plt.show()
+
+# Step 8: Check the wave height range
+max_height = np.max(total_height)
+min_height = np.min(total_height)
+print(f"Maximum wave height (t = {time_snapshots[-1]} s): {max_height:.2f} m")
+print(f"Minimum wave height (t = {time_snapshots[-1]} s): {min_height:.2f} m")
 
 # Time evolution (animation-like snapshots)
 times = [0, 0.25, 0.5]
