@@ -111,7 +111,7 @@ This elegant result shows $T^2$ is directly proportional to $r^3$, with $k$ depe
   - $r = 1 \, \text{AU} = 1.496 \times 10^{11} \, \text{m}$
 
   - $T = 365.25 \, \text{days} = 3.156 \times 10^7 \, \text{s}$
-
+  
   - Confirms the law with $M_{\text{Sun}} \approx 1.989 \times 10^{30} \, \text{kg}$.
 
 ## 4. Implementation
