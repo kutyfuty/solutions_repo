@@ -172,6 +172,230 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="measuring-earths-gravitational-acceleration-with-a-pendulum">Measuring Earth’s Gravitational Acceleration with a Pendulum</h1>
+<h2 id="1-motivation">1. Motivation</h2>
+<p>The acceleration due to gravity (<span class="arithmatex">\(g\)</span>) is a fundamental constant, approximately 9.81 m/s² on Earth’s surface. Measuring <span class="arithmatex">\(g\)</span> accurately is crucial in physics for understanding motion, designing structures, and calibrating instruments. A simple pendulum provides a classic method to estimate <span class="arithmatex">\(g\)</span> by relating its period of oscillation to the local gravitational field. This experiment also teaches us how to handle measurements, uncertainties, and error analysis.</p>
+<hr/>
+<h2 id="2-procedure-overview">2. Procedure Overview</h2>
+<h3 id="materials">Materials</h3>
+<ul>
+<li>
+<p>A string (1 to 1.5 meters long).</p>
+</li>
+<li>
+<p>A small weight (e.g., bag of coins, key chain).</p>
+</li>
+<li>
+<p>A stopwatch or timer.</p>
+</li>
+<li>
+<p>A ruler or measuring tape.</p>
+</li>
+</ul>
+<h3 id="steps">Steps</h3>
+<ol>
+<li>
+<p><strong>Setup:</strong></p>
+</li>
+<li>
+<p>Attach the weight to the string and fix the other end to a support.</p>
+</li>
+<li>
+<p>Measure the pendulum length <span class="arithmatex">\(L\)</span> (from the suspension point to the center of the weight) using a ruler. Record the uncertainty <span class="arithmatex">\(\Delta L\)</span> (ruler resolution / 2).</p>
+</li>
+<li>
+<p><strong>Data Collection:</strong></p>
+</li>
+<li>
+<p>Displace the pendulum by a small angle (&lt;15°) and release it.</p>
+</li>
+<li>
+<p>Measure the time for 10 oscillations (<span class="arithmatex">\(T_{10}\)</span>), repeat 10 times, and record all measurements.</p>
+</li>
+<li>
+<p>Calculate the mean time for 10 oscillations (<span class="arithmatex">\(\overline{T_{10}}\)</span>) and the standard deviation (<span class="arithmatex">\(\sigma_T\)</span>).</p>
+</li>
+<li>
+<p>Find the uncertainty in the mean: <span class="arithmatex">\(\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}\)</span>, where <span class="arithmatex">\(n = 10\)</span>.</p>
+</li>
+<li>
+<p><strong>Calculations:</strong></p>
+</li>
+<li>
+<p>Period: <span class="arithmatex">\(T = \frac{\overline{T_{10}}}{10}\)</span>, with uncertainty <span class="arithmatex">\(\Delta T = \frac{\Delta T_{10}}{10}\)</span>.</p>
+</li>
+<li>
+<p>Gravitational acceleration: <span class="arithmatex">\(g = \frac{4\pi^2 L}{T^2}\)</span>.</p>
+</li>
+<li>
+<p>Propagate uncertainties: <span class="arithmatex">\(\Delta g = g \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(\frac{2 \Delta T}{T}\right)^2}\)</span>.</p>
+</li>
+</ol>
+<hr/>
+<h2 id="3-python-code-for-google-colab">3. Python Code for Google Colab</h2>
+<p>We’ll simulate the experiment by generating realistic measurement data, calculate <span class="arithmatex">\(g\)</span>, and analyze uncertainties. The code will run in Google Colab and produce downloadable outputs.</p>
+<pre><code class="language-python"># Import libraries (Colab-compatible)
+import numpy as np
+import matplotlib.pyplot as plt
+from google.colab import files
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Step 1: Simulate the pendulum setup
+true_g = 9.81  # True value of g (m/s²)
+L = 1.0  # Length of pendulum (m)
+delta_L = 0.001  # Uncertainty in length (1 mm, typical ruler resolution)
+
+# Theoretical period: T = 2π √(L/g)
+T_theoretical = 2 * np.pi * np.sqrt(L / true_g)
+
+# Step 2: Simulate measurements of T_10 (time for 10 oscillations)
+n_measurements = 10  # Number of trials
+T_10_true = 10 * T_theoretical  # True time for 10 oscillations
+# Simulate measurement errors (e.g., human reaction time ~0.1s per measurement)
+reaction_time_error = 0.1  # Typical reaction time uncertainty
+T_10_measurements = T_10_true + np.random.normal(0, reaction_time_error, n_measurements)
+
+# Calculate mean and uncertainty
+T_10_mean = np.mean(T_10_measurements)
+sigma_T = np.std(T_10_measurements, ddof=1)  # Standard deviation
+delta_T_10 = sigma_T / np.sqrt(n_measurements)  # Uncertainty in the mean
+
+# Period and its uncertainty
+T = T_10_mean / 10
+delta_T = delta_T_10 / 10
+
+# Step 3: Calculate g and propagate uncertainties
+g = 4 * np.pi**2 * L / T**2
+# Uncertainty propagation: Δg/g = √[(ΔL/L)² + (2ΔT/T)²]
+delta_g = g * np.sqrt((delta_L / L)**2 + (2 * delta_T / T)**2)
+
+# Step 4: Display results
+print("=== Measurement Results ===")
+print(f"Length L: {L:.3f} ± {delta_L:.3f} m")
+print(f"Mean time for 10 oscillations (T_10): {T_10_mean:.3f} ± {delta_T_10:.3f} s")
+print(f"Period T: {T:.3f} ± {delta_T:.3f} s")
+print(f"Calculated g: {g:.3f} ± {delta_g:.3f} m/s²")
+print(f"True g: {true_g:.3f} m/s²")
+print(f"Percent error: {abs(g - true_g) / true_g * 100:.2f}%")
+
+# Step 5: Visualize the measurements
+plt.figure(figsize=(8, 6), dpi=100)
+plt.hist(T_10_measurements, bins=5, color='skyblue', alpha=0.7, label='Measurements')
+plt.axvline(T_10_mean, color='red', linestyle='--', label=f'Mean = {T_10_mean:.3f} s')
+plt.axvline(T_10_mean - delta_T_10, color='black', linestyle='--', alpha=0.5)
+plt.axvline(T_10_mean + delta_T_10, color='black', linestyle='--', alpha=0.5, label=f'±{delta_T_10:.3f} s')
+plt.xlabel('Time for 10 Oscillations (s)', fontsize=14)
+plt.ylabel('Frequency', fontsize=14)
+plt.title('Distribution of T_10 Measurements', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.savefig('T_10_histogram.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+# Download the plot
+files.download('T_10_histogram.png')
+</code></pre>
+<hr/>
+<h2 id="_1"><img alt="alt text" src="../image.png"/></h2>
+<h2 id="5-outputs-and-explanation">5. Outputs and Explanation</h2>
+<h3 id="measurement-results">Measurement Results</h3>
+<ul>
+<li>
+<p><strong>Length:</strong> <span class="arithmatex">\(L = 1.000 \pm 0.001\)</span> m (1 mm uncertainty from a typical ruler).</p>
+</li>
+<li>
+<p><strong>Mean <span class="arithmatex">\(T_{10}\)</span>:</strong> Around 20.1 s with an uncertainty of ~0.03 s (based on simulated data).</p>
+</li>
+<li>
+<p><strong>Period <span class="arithmatex">\(T\)</span>:</strong> Around 2.01 s with an uncertainty of ~0.003 s.</p>
+</li>
+<li>
+<p><strong>Calculated <span class="arithmatex">\(g\)</span>:</strong> Around 9.78 m/s² with an uncertainty of ~0.03 m/s².</p>
+</li>
+<li>
+<p><strong>True <span class="arithmatex">\(g\)</span>:</strong> 9.81 m/s².</p>
+</li>
+<li>
+<p><strong>Percent Error:</strong> ~0.3% (small, showing good accuracy).</p>
+</li>
+</ul>
+<h3 id="visualization">Visualization</h3>
+<ul>
+<li>
+<p><strong>Histogram:</strong> Shows the distribution of <span class="arithmatex">\(T_{10}\)</span> measurements.</p>
+</li>
+<li>
+<p>Red dashed line: Mean <span class="arithmatex">\(T_{10}\)</span>.</p>
+</li>
+<li>
+<p>Black dashed lines: Uncertainty range (<span class="arithmatex">\(\pm \Delta T_{10}\)</span>).</p>
+</li>
+</ul>
+<hr/>
+<h2 id="6-analysis">6. Analysis</h2>
+<h3 id="comparison-with-standard-value">Comparison with Standard Value</h3>
+<ul>
+<li><strong>Calculated <span class="arithmatex">\(g\)</span>:</strong> 9.78 ± 0.03 m/s².</li>
+<li><strong>Standard <span class="arithmatex">\(g\)</span>:</strong> 9.81 m/s².</li>
+<li>The measured value is very close, within the uncertainty range, indicating a successful experiment.</li>
+</ul>
+<h3 id="sources-of-uncertainty">Sources of Uncertainty</h3>
+<ul>
+<li>
+<p><strong>Measurement Resolution (<span class="arithmatex">\(\Delta L\)</span>):</strong> Ruler resolution is 1 mm, contributing a small uncertainty (0.1% of <span class="arithmatex">\(L\)</span>).</p>
+</li>
+<li>
+<p><strong>Timing Variability (<span class="arithmatex">\(\Delta T\)</span>):</strong> Human reaction time (~0.1 s) introduces variability in <span class="arithmatex">\(T_{10}\)</span> measurements. Averaging over 10 trials reduces this uncertainty.</p>
+</li>
+<li>
+<p><strong>Assumptions/Limitations:</strong></p>
+</li>
+<li>Small-angle approximation: The formula <span class="arithmatex">\(T = 2\pi \sqrt{L/g}\)</span> assumes small oscillations (&lt;15°). Larger angles would require corrections.</li>
+<li>Air resistance and friction: Ignored here but could slightly increase the period.</li>
+<li>Mass distribution: Assumes the weight is a point mass; a distributed mass would shift the center of gravity.</li>
+</ul>
+<hr/>
+<h2 id="7-discussion">7. Discussion</h2>
+<ul>
+<li>
+<p><strong>Measurement Resolution Impact:</strong> <span class="arithmatex">\(\Delta L = 0.001\)</span> m is small (0.1% of <span class="arithmatex">\(L\)</span>), so it contributes little to <span class="arithmatex">\(\Delta g\)</span>. Improving ruler precision (e.g., to 0.1 mm) would have minimal impact.</p>
+</li>
+<li>
+<p><strong>Timing Variability:</strong> <span class="arithmatex">\(\Delta T_{10}\)</span> is the dominant uncertainty source due to reaction time. Using a more precise timer (e.g., a photogate) could reduce <span class="arithmatex">\(\Delta T\)</span> and improve accuracy.</p>
+</li>
+<li>
+<p><strong>Improvements:</strong> Automate timing with sensors, use a longer pendulum to reduce relative errors in <span class="arithmatex">\(L\)</span>, and account for air resistance in a more detailed model.</p>
+</li>
+</ul>
+<hr/>
+<h2 id="8-deliverables-summary">8. Deliverables Summary</h2>
+<ul>
+<li>
+<p><strong>Tabulated Data:</strong></p>
+</li>
+<li>
+<p><span class="arithmatex">\(L = 1.000 \pm 0.001\)</span> m</p>
+</li>
+<li>
+<p><span class="arithmatex">\(T_{10}\)</span> measurements: Simulated data (e.g., ~20.1 s)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\overline{T_{10}} \approx 20.1 \pm 0.03\)</span> s</p>
+</li>
+<li>
+<p><span class="arithmatex">\(T \approx 2.01 \pm 0.003\)</span> s</p>
+</li>
+<li>
+<p><span class="arithmatex">\(g = 9.78 \pm 0.03\)</span> m/s²</p>
+</li>
+<li>
+<p><strong>Discussion:</strong> The experiment successfully estimates <span class="arithmatex">\(g\)</span>, with timing uncertainty being the main limitation. Improvements in measurement precision could further enhance accuracy.</p>
+</li>
+</ul>
+<hr/>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
