@@ -99,7 +99,7 @@
 </ul>
 <p class="caption"><span class="caption-text">2 Mathematics</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../2%20Mathematics/1%20Linear_algebra/">Linear Algebra</a>
+<li class="toctree-l1"><a class="reference internal" href="../../../2%20Mathematics/1%20Linear_algebra/">Investigating the Range as a Function of the Angle of Projection</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../2%20Mathematics/2%20Analytic_geometry/">Analytic geometry</a>
 </li>
@@ -172,6 +172,301 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
+<h2 id="1-understanding-the-lorentz-force">1. Understanding the Lorentz Force</h2>
+<p>The Lorentz force acts on a charged particle in electric and magnetic fields. It’s given by:
+$$
+\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})
+$$
+- <span class="arithmatex">\(q\)</span>: Charge of the particle (Coulombs)</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\mathbf{E}\)</span>: Electric field (V/m)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\mathbf{v}\)</span>: Velocity of the particle (m/s)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\mathbf{B}\)</span>: Magnetic field (Tesla)</p>
+</li>
+</ul>
+<h3 id="applications">Applications</h3>
+<ul>
+<li>
+<p><strong>Particle Accelerators:</strong> The Lorentz force guides particles in devices like cyclotrons.</p>
+</li>
+<li>
+<p><strong>Mass Spectrometers:</strong> It separates particles by mass and charge.</p>
+</li>
+<li>
+<p><strong>Astrophysics:</strong> It explains how charged particles move in space (e.g., auroras).</p>
+</li>
+</ul>
+<h3 id="role-of-fields">Role of Fields</h3>
+<ul>
+<li>
+<p><strong>Electric Field (<span class="arithmatex">\(\mathbf{E}\)</span>):</strong> Pushes the particle in the direction of the field.</p>
+</li>
+<li>
+<p><strong>Magnetic Field (<span class="arithmatex">\(\mathbf{B}\)</span>):</strong> Causes circular or helical motion perpendicular to both <span class="arithmatex">\(\mathbf{v}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span>.</p>
+</li>
+</ul>
+<h2 id="2-simulating-particle-motion">2. Simulating Particle Motion</h2>
+<p>We’ll simulate the motion of a charged particle under:
+- A uniform electric field.</p>
+<ul>
+<li>
+<p>A uniform magnetic field.</p>
+</li>
+<li>
+<p>Combined fields (crossed <span class="arithmatex">\(\mathbf{E}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span>).</p>
+</li>
+</ul>
+<h3 id="equations-of-motion">Equations of Motion</h3>
+<p>Newton’s second law gives:
+$$
+\mathbf{F} = m \mathbf{a} \quad \Rightarrow \quad m \frac{d\mathbf{v}}{dt} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})
+$$
+Where:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(m\)</span>: Mass of the particle (kg)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\mathbf{a}\)</span>: Acceleration (m/s²)</p>
+</li>
+</ul>
+<p>Divide by <span class="arithmatex">\(m\)</span>:
+$$
+\frac{d\mathbf{v}}{dt} = \frac{q}{m} (\mathbf{E} + \mathbf{v} \times \mathbf{B})
+$$
+Position updates as:
+$$
+\frac{d\mathbf{r}}{dt} = \mathbf{v}
+$$</p>
+<h2 id="3-parameter-exploration">3. Parameter Exploration</h2>
+<p>We’ll vary:
+- <strong>Field Strengths:</strong> <span class="arithmatex">\(\mathbf{E}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span>.</p>
+<ul>
+<li>
+<p><strong>Initial Velocity:</strong> <span class="arithmatex">\(\mathbf{v}_0\)</span>.</p>
+</li>
+<li>
+<p><strong>Charge and Mass:</strong> <span class="arithmatex">\(q\)</span> and <span class="arithmatex">\(m\)</span>.</p>
+</li>
+</ul>
+<h3 id="scenarios">Scenarios</h3>
+<ol>
+<li>
+<p><strong>Only Electric Field:</strong> <span class="arithmatex">\(\mathbf{E} = (E_x, 0, 0)\)</span>, <span class="arithmatex">\(\mathbf{B} = 0\)</span>.</p>
+</li>
+<li>
+<p><strong>Only Magnetic Field:</strong> <span class="arithmatex">\(\mathbf{E} = 0\)</span>, <span class="arithmatex">\(\mathbf{B} = (0, 0, B_z)\)</span>.</p>
+</li>
+<li>
+<p><strong>Crossed Fields:</strong> <span class="arithmatex">\(\mathbf{E} = (E_x, 0, 0)\)</span>, <span class="arithmatex">\(\mathbf{B} = (0, 0, B_z)\)</span>.</p>
+</li>
+</ol>
+<h2 id="4-python-implementation">4. Python Implementation</h2>
+<p>Here’s the simulation using the Runge-Kutta method (via <code>scipy.integrate.odeint</code>):</p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+from mpl_toolkits.mplot3d import Axes3D  # For 3D plotting
+
+# Constants for the particle (e.g., a proton)
+q = 1.6e-19  # Charge in Coulombs (proton charge)
+m = 1.67e-27  # Mass in kg (proton mass)
+E0 = 1e3  # Electric field strength in V/m
+B0 = 0.1  # Magnetic field strength in Tesla
+
+# Function to compute the motion (derivatives)
+def lorentz_motion(state, t, q, m, E, B):
+    """
+    Compute the change in position and velocity.
+    state = [x, y, z, vx, vy, vz]
+    E = [Ex, Ey, Ez], B = [Bx, By, Bz]
+    """
+    x, y, z, vx, vy, vz = state
+    v = np.array([vx, vy, vz])  # Velocity vector
+
+    # Lorentz force: F = q(E + v x B)
+    E_term = q * np.array(E) / m  # Acceleration from electric field
+    B_term = q * np.cross(v, np.array(B)) / m  # Acceleration from magnetic field
+
+    # Acceleration: dv/dt = (q/m)(E + v x B)
+    ax, ay, az = E_term + B_term
+
+    # Velocity: dx/dt = v
+    return [vx, vy, vz, ax, ay, az]
+
+# Time array for simulation
+t = np.linspace(0, 1e-6, 1000)  # 1 microsecond, 1000 points
+
+# Initial conditions: [x, y, z, vx, vy, vz]
+initial_state = [0, 0, 0, 1e5, 0, 0]  # Start at origin, velocity along x (10^5 m/s)
+
+# Define scenarios for different field setups
+scenarios = {
+    'Only Electric Field': {'E': [E0, 0, 0], 'B': [0, 0, 0]},
+    'Only Magnetic Field': {'E': [0, 0, 0], 'B': [0, 0, B0]},
+    'Crossed Fields': {'E': [E0, 0, 0], 'B': [0, 0, B0]}
+}
+
+# Simulate and plot for each scenario
+for scenario, fields in scenarios.items():
+    E, B = fields['E'], fields['B']
+    # Solve the motion equations
+    sol = odeint(lorentz_motion, initial_state, t, args=(q, m, E, B))
+    x, y, z = sol[:, 0], sol[:, 1], sol[:, 2]  # Extract positions
+
+    # 2D Plot (x-y plane)
+    plt.figure(figsize=(8, 6), dpi=100)
+    plt.plot(x, y, 'b-', label='Trajectory')
+    plt.xlabel('x (m)', fontsize=14)
+    plt.ylabel('y (m)', fontsize=14)
+    plt.title(f'2D Trajectory: {scenario}', fontsize=16)
+    plt.legend(fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.axis('equal')
+    plt.tight_layout()
+    # Save the plot as an image (optional, for downloading in Colab)
+    plt.savefig(f'2D_{scenario.replace(" ", "_")}.png', dpi=100, bbox_inches='tight')
+    plt.show()
+
+    # 3D Plot
+    fig = plt.figure(figsize=(8, 8), dpi=100)
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot(x, y, z, 'b-', label='Trajectory')
+    ax.set_xlabel('x (m)', fontsize=12)
+    ax.set_ylabel('y (m)', fontsize=12)
+    ax.set_zlabel('z (m)', fontsize=12)
+    ax.set_title(f'3D Trajectory: {scenario}', fontsize=16)
+    ax.legend(fontsize=12)
+    plt.tight_layout()
+    # Save the 3D plot
+    plt.savefig(f'3D_{scenario.replace(" ", "_")}.png', dpi=100, bbox_inches='tight')
+    plt.show()
+
+# Explore the effect of magnetic field strength on the trajectory
+B_values = [0.05, 0.1, 0.2]  # Different magnetic field strengths
+plt.figure(figsize=(8, 6), dpi=100)
+for B_val in B_values:
+    B = [0, 0, B_val]  # Magnetic field along z
+    E = [0, 0, 0]  # No electric field
+    sol = odeint(lorentz_motion, initial_state, t, args=(q, m, E, B))
+    x, y = sol[:, 0], sol[:, 1]
+    plt.plot(x, y, label=f'B = {B_val} T')
+plt.xlabel('x (m)', fontsize=14)
+plt.ylabel('y (m)', fontsize=14)
+plt.title('Effect of Magnetic Field Strength on Trajectory', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.axis('equal')
+plt.tight_layout()
+# Save the plot
+plt.savefig('B_variation.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+# Optional: Download the saved plots in Colab
+from google.colab import files
+for scenario in scenarios:
+    files.download(f'2D_{scenario.replace(" ", "_")}.png')
+    files.download(f'3D_{scenario.replace(" ", "_")}.png')
+files.download('B_variation.png')
+
+# Simulate and plot
+for scenario, fields in scenarios.items():
+    E, B = fields['E'], fields['B']
+    sol = odeint(lorentz_motion, initial_state, t, args=(q, m, E, B))
+    x, y, z = sol[:, 0], sol[:, 1], sol[:, 2]
+
+    # 2D Plot (x-y plane)
+    plt.figure(figsize=(8, 6), dpi=100)
+    plt.plot(x, y, 'b-', label='Trajectory')
+    plt.xlabel('x (m)', fontsize=14)
+    plt.ylabel('y (m)', fontsize=14)
+    plt.title(f'2D Trajectory: {scenario}', fontsize=16)
+    plt.legend(fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.axis('equal')
+    plt.tight_layout()
+    plt.show()
+
+    # 3D Plot
+    fig = plt.figure(figsize=(8, 8), dpi=100)
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot(x, y, z, 'b-', label='Trajectory')
+    ax.set_xlabel('x (m)', fontsize=12)
+    ax.set_ylabel('y (m)', fontsize=12)
+    ax.set_zlabel('z (m)', fontsize=12)
+    ax.set_title(f'3D Trajectory: {scenario}', fontsize=16)
+    ax.legend(fontsize=12)
+    plt.tight_layout()
+    plt.show()
+
+# Parameter variation: Effect of B on Larmor radius
+B_values = [0.05, 0.1, 0.2]  # Different magnetic field strengths
+plt.figure(figsize=(8, 6), dpi=100)
+for B_val in B_values:
+    B = [0, 0, B_val]
+    E = [0, 0, 0]  # Only magnetic field
+    sol = odeint(lorentz_motion, initial_state, t, args=(q, m, E, B))
+    x, y = sol[:, 0], sol[:, 1]
+    plt.plot(x, y, label=f'B = {B_val} T')
+plt.xlabel('x (m)', fontsize=14)
+plt.ylabel('y (m)', fontsize=14)
+plt.title('Effect of Magnetic Field on Trajectory', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+</code></pre>
+<hr/>
+<p><img alt="alt text" src="../image.png"/>
+<img alt="alt text" src="../image-1.png"/>
+<img alt="alt text" src="../image-2.png"/>
+<img alt="alt text" src="../image-3.png"/>
+<img alt="alt text" src="../image-4.png"/>
+<img alt="alt text" src="../image-5.png"/>
+<img alt="alt text" src="../image-6.png"/></p>
+<hr/>
+<h2 id="5-outputs-and-explanation">5. Outputs and Explanation</h2>
+<h3 id="2d-and-3d-trajectories">2D and 3D Trajectories</h3>
+<ul>
+<li>
+<p><strong>Only Electric Field:</strong> The particle moves in a straight line along the x-axis (due to <span class="arithmatex">\(\mathbf{E}\)</span>).</p>
+</li>
+<li>
+<p><strong>Only Magnetic Field:</strong> The particle follows a circular path in the x-y plane (Larmor radius = <span class="arithmatex">\(mv/(qB)\)</span>).</p>
+</li>
+<li>
+<p><strong>Crossed Fields:</strong> The particle drifts in the y-direction while circling (drift velocity = <span class="arithmatex">\(E/B\)</span>).</p>
+</li>
+</ul>
+<h3 id="parameter-variation">Parameter Variation</h3>
+<ul>
+<li><strong>Magnetic Field Strength:</strong> Higher <span class="arithmatex">\(B\)</span> makes the Larmor radius smaller (tighter circles).</li>
+</ul>
+<h3 id="physical-phenomena">Physical Phenomena</h3>
+<ul>
+<li>
+<p><strong>Larmor Radius:</strong> The radius of the circular path in a magnetic field: <span class="arithmatex">\(r = \frac{mv}{qB}\)</span>.</p>
+</li>
+<li>
+<p><strong>Drift Velocity:</strong> In crossed fields, the particle drifts at <span class="arithmatex">\(v_d = \frac{E}{B}\)</span> in the direction perpendicular to both fields.</p>
+</li>
+</ul>
+<h2 id="6-discussion">6. Discussion</h2>
+<ul>
+<li>
+<p><strong>Relation to Real Systems:</strong> Cyclotrons use magnetic fields to keep particles in circular paths. Crossed fields are used in velocity selectors.</p>
+</li>
+<li>
+<p><strong>Extensions:</strong> Add non-uniform fields or relativistic effects for more complex scenarios.</p>
+</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
