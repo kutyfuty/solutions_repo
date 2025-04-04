@@ -5,7 +5,9 @@
 ## 1. Motivation
 
 Monte Carlo methods use random sampling to solve problems. Here, we’ll use them to estimate π (≈ 3.14159) in two ways:
+
 - **Circle-Based Method:** Drop random points in a square and see how many fall inside a circle to estimate π.
+
 - **Buffon’s Needle Method:** Drop needles on a lined plane and count how many cross the lines to estimate π.
 
 These methods show how randomness can help solve math problems and are great for learning probability, geometry, and simulation techniques.
