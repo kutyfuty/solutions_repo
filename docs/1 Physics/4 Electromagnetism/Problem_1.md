@@ -243,6 +243,7 @@ plt.show()
 ![alt text](image-5.png)
 ![alt text](image-6.png)
 ---
+
 ## 5. Outputs and Explanation
 
 ### 2D and 3D Trajectories
