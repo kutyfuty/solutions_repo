@@ -13,7 +13,9 @@ We’ll use simulations to see this in action, making it easier to understand.
 ## 2. Simulating Sampling Distributions
 
 ### Step 1: Choose Population Distributions
+
 We’ll simulate three different population distributions:
+
 - **Uniform Distribution:** All values are equally likely (e.g., rolling a fair die).
 - **Exponential Distribution:** Models time between events (e.g., waiting for a bus).
 - **Binomial Distribution:** Models successes in a fixed number of trials (e.g., flipping a coin).
